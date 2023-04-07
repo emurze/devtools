@@ -1,16 +1,4 @@
-class View:
-    """View for checking"""
-
-    @staticmethod
-    def show(args, *, name: str, time: float, amount: int,
-             func_res: str, result: bool) -> None:
-        """To view and to show"""
-        func_view = f' -> {func_res}' if result else ''
-        args_view = ", ".join(args)
-        print(f"[time - {View.get_time(time)}, "
-              f"memory - {View.get_memory(amount)}]:  "
-              f"{name}({args_view}){func_view}")
-
+class Transform:
     @staticmethod
     def get_memory(amount: int, /) -> str:
         """Transform bits to bytes and bytes to KB, MB, GB"""
