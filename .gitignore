@@ -1,4 +1,2 @@
 .idea
-*/.idea
-.mypy_cache
-*/.mypy_cache
+*.idea
