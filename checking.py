@@ -4,7 +4,7 @@ from collections.abc import Callable
 from time import perf_counter
 from typing import Any, Union
 
-from modules.view.views import View
+from devtools.modules.view.views import View
 
 
 def checking(_func: Union[Callable, None] = None, *,
