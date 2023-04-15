@@ -1,4 +1,11 @@
+"Pycharm"
+*/.idea
 .idea
-*.idea
+
+"Python"
+__pycache__
+*/__pycache__
+
+"Mypy"
 .mypy_cache
-*.mypy_cache
+*/.mypy_cache

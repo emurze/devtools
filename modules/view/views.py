@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import NoReturn
 
-from ...modules.view.transform import Transform  # type: ignore
-from ...modules.exceptions import SetupDoesNotActivated  # type: ignore
+from ...modules.view.transform import Transform
+from ...modules.exceptions import SetupDoesNotActivated
 
 
 @dataclass(kw_only=True)
@@ -19,6 +19,7 @@ class View:
     amount: int
     func_res: str
     is_changed: bool = field(default=False, repr=False)
+
 
     def setup(self, *, chk_result: bool, chk_arguments: bool) -> None:
         """1) Setup checks from @decorator(*checks)."""
