@@ -12,7 +12,11 @@ except ModuleNotFoundError:
 def query_debugger(func: Callable) -> Callable:
     @functools.wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
-        reset_queries()
+        try:
+            reset_queries()
+        except NameError:
+            raise ModuleNotFoundError("Django framework wasn't installed.")
+
         start_queries = len(connection.queries)
 
         start_time = time.perf_counter()
