@@ -2,29 +2,40 @@ import functools
 import tracemalloc
 from collections.abc import Callable
 from time import perf_counter
-from typing import Any, Union
+from typing import Any, Optional
 
-from .modules.view import View
+from devtools.modules.transform import Transform
+from devtools.modules.views import FunctionView
 
 
-def checking(_func: Union[Callable, None] = None, *,
+def checking(_func: Optional[Callable] = None, *,
              arguments: bool = False, result: bool = False):
-    """This decorator count func time and memory"""
+    """This decorator count function time and memory"""
     def check(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> Any:
-            args_list = [str(x) for x in args]
-            args_list.extend(f'{k}={v}' for k, v in kwargs.items())
+            _args = (str(x) for x in args)
+            _kwargs = (f'{k}={v}' for k, v in kwargs.items())
+            _arguments: list[str] = [*_args, *_kwargs]
+
             tracemalloc.start()
             t0 = perf_counter()
-            _res = func(*args, **kwargs)
-            view = View(args_list, name=func.__name__, time=perf_counter()-t0,
-                        amount=tracemalloc.get_traced_memory()[-1],
-                        func_res=_res)
-            view.setup(chk_result=result, chk_arguments=arguments)
-            view.show()
+
+            _result = func(*args, **kwargs)
+
+            time = Transform.get_time(perf_counter() - t0)
+            memory = Transform.get_memory(tracemalloc.get_traced_memory()[-1])
+
+            view = FunctionView(
+                name=func.__name__,
+                result=_result,
+                arguments=_arguments,
+                time=time,
+                memory=memory,
+            )
+            view.show(need_result=result, need_arguments=arguments)
+
             tracemalloc.stop()
-            return _res
+            return _result
         return wrapper
     return check(_func) if _func else check
-    

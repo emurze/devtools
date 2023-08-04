@@ -1,11 +1,12 @@
 import functools
 import time
-
-# noinspection PyProtectedMember
-from django.db import connection, reset_queries
-
 from collections.abc import Callable
 from typing import Any
+
+try:
+    from django.db import connection, reset_queries
+except ModuleNotFoundError:
+    pass
 
 
 def query_debugger(func: Callable) -> Callable:
